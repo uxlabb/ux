@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leap Year Checker</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      input {
+        padding: 10px;
+        font-size: 16px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        padding: 10px 15px;
+        font-size: 16px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      #result {
+        margin-top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Leap Year Checker</h2>
+    <label for="yearInput">Enter a Year:</label>
+    <input type="number" id="yearInput" placeholder="Enter year" />
+    <button onclick="checkLeapYear()">Check</button>
+    <p id="result"></p>
+
+    <script>
+      function isLeapYear(year) {
+        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+      }
+
+      function checkLeapYear() {
+        let year = document.getElementById("yearInput").value;
+
+        if (!year || isNaN(year) || year <= 0) {
+          document.getElementById("result").innerText =
+            "Please enter a valid year.";
+          return;
+        }
+
+        let resultText = isLeapYear(parseInt(year))
+          ? `${year} is a Leap Year. ✅`
+          : `${year} is NOT a Leap Year. ❌`;
+
+        document.getElementById("result").innerText = resultText;
+      }
+    </script>
+  </body>
+</html>

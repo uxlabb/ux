@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .chat-box {
+            height: 250px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px;
+            background: green;
+            color: white;
+            border: none;
+            margin-left: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message {
+            padding: 8px;
+            border-radius: 5px;
+            margin: 5px 0;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user {
+            background: blue;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .bot {
+            background: #ccc;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <h2>Chat</h2>
+        <div class="chat-box" id="chat"></div>
+        <div class="chat-input">
+            <input id="msg" placeholder="Type...">
+            <button onclick="send()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function send() {
+            let chat = document.getElementById("chat");
+            let msg = document.getElementById("msg").value.trim();
+
+            if (!msg) return;
+
+            chat.innerHTML += `<div class='message user'>${msg}</div>`;
+            document.getElementById("msg").value = "";
+
+            setTimeout(() => {
+                chat.innerHTML += `<div class='message bot'>${reply(msg)}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 500);
+        }
+
+        function reply(text) {
+            let responses = {
+                "hi": "Hello!",
+                "how are you": "I'm good, you?",
+                "bye": "Goodbye!"
+            };
+
+            return responses[text.toLowerCase()] || "I don't understand.";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Reminder</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Main App Container */
+        .app {
+            width: 350px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Title */
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Popup Notification */
+        .popup {
+            background: #ffcc00;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+            animation: fadeOut 3s ease-in-out;
+        }
+
+        /* Input Container */
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Input Fields */
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        /* Add Birthday Button */
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Process Birthdays Button */
+        .process-btn {
+            background-color: #007bff;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .process-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Birthday List */
+        .birthday-list {
+            margin-top: 10px;
+        }
+
+        .birthday-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9f9f9;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Remove Button */
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Fade-Out Animation for Popup */
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <h2>🎂 Birthday Reminder</h2>
+        <div class="popup" id="popup"></div>
+        
+        <div class="input-container">
+            <input type="text" id="name" placeholder="Enter Name">
+            <input type="date" id="date">
+            <button class="add-btn" onclick="addBirthday()">Add Birthday</button>
+        </div>
+
+        <div class="birthday-list" id="birthday-list">
+            <div class="birthday-item">
+                <span data-date="2024-03-10">John Doe - 2024-03-10</span>
+                <button class="remove-btn" onclick="removeBirthday(this)">Remove</button>
+            </div>
+            <div class="birthday-item">
+                <span data-date="2024-05-15">Jane Smith - 2024-05-15</span>
+                <button class="remove-btn" onclick="removeBirthday(this)">Remove</button>
+            </div>
+        </div>
+
+        <button class="process-btn" onclick="updateBirthdays()">Update Birthdays</button>
+    </div>
+
+    <script>
+        function addBirthday() {
+            let name = document.getElementById("name").value;
+            let date = document.getElementById("date").value;
+            if (name && date) {
+                let birthdayList = document.getElementById("birthday-list");
+                let newEntry = document.createElement("div");
+                newEntry.classList.add("birthday-item");
+                newEntry.innerHTML = `
+                    <span data-date="${date}">${name} - ${date}</span>
+                    <button class="remove-btn" onclick="removeBirthday(this)">Remove</button>
+                `;
+                birthdayList.appendChild(newEntry);
+                document.getElementById("name").value = "";
+                document.getElementById("date").value = "";
+            }
+        }
+
+        function removeBirthday(button) {
+            button.parentElement.remove();
+        }
+
+        function updateBirthdays() {
+            let today = new Date();
+            let todayStr = today.toISOString().split("T")[0];
+            let birthdays = document.querySelectorAll(".birthday-item span");
+            let foundBirthday = false;
+
+            birthdays.forEach((bday) => {
+                let parts = bday.innerText.split(" - ");
+                let dateStr = bday.getAttribute("data-date");
+                let date = new Date(dateStr);
+
+                // If birthday is in the past, update to next year
+                if (date < today) {
+                    date.setFullYear(today.getFullYear() + 1);
+                    let newDateStr = date.toISOString().split("T")[0];
+                    bday.innerText = `${parts[0]} - ${newDateStr}`;
+                    bday.setAttribute("data-date", newDateStr);
+                }
+
+                // If today is someone's birthday, show popup
+                if (dateStr === todayStr) {
+                    let popup = document.getElementById("popup");
+                    popup.innerText = `🎉 Happy Birthday, ${parts[0]}! 🎂`;
+                    popup.style.display = "block";
+                    setTimeout(() => { popup.style.display = "none"; }, 3000);
+                    foundBirthday = true;
+                }
+            });
+
+            if (!foundBirthday) {
+                alert("Birthdays updated for past dates, but no birthdays today.");
+            }
+        }
+    </script>
+
+</body>
+</html>

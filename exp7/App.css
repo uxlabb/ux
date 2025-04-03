@@ -1,0 +1,119 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Main App Container */
+.app {
+  width: 350px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title */
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Popup Notification */
+.popup {
+  background: #ffcc00;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  animation: fadeOut 3s ease-in-out;
+}
+
+/* Input Container */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* Input Fields */
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Buttons */
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+/* Add Birthday Button */
+button:nth-child(3) {
+  background-color: #28a745;
+  color: white;
+}
+
+button:nth-child(3):hover {
+  background-color: #218838;
+}
+
+/* Process Birthdays Button */
+.process-btn {
+  background-color: #007bff;
+  color: white;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.process-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Birthday List */
+.birthday-list {
+  margin-top: 10px;
+}
+
+.birthday-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove Button */
+.birthday-item button {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+}
+
+.birthday-item button:hover {
+  background-color: #c82333;
+}
+
+/* Fade-Out Animation for Popup */
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
