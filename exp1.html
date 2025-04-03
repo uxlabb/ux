@@ -1,4 +1,3 @@
- 
 <!DOCTYPE html> 
 <html lang="en"> 
 <head> 
@@ -8,8 +7,8 @@
     <style> 
         body { font-family: Arial, sans-serif; text-align: center; margin: 20px; } 
         .product { border: 1px solid #ccc; padding: 10px; display: inline-block; margin: 10px; } 
-        button {background: green;  color: white; border: none; padding: 8px; cursor: pointer; margin-top: 5px; 
-} 
+        button { background: green; color: white; border: none; padding: 8px; cursor: pointer; margin-top: 5px; } 
+        .remove { background: red; } 
     </style> 
 </head> 
 <body> 
@@ -17,28 +16,51 @@
     <div class="product"> 
         <h3>Product 1</h3> 
         <p>₹500</p> 
-        <button onclick="addToCart(500)">Add to Cart</button> 
+        <button onclick="addToCart(500, 'Product 1')">Add to Cart</button> 
+        <button class="remove" onclick="removeFromCart(500, 'Product 1')">Remove</button>
+        <p>Quantity: <span id="Product 1-count">0</span></p>
     </div> 
     <div class="product"> 
         <h3>Product 2</h3> 
         <p>₹750</p> 
-        <button onclick="addToCart(750)">Add to Cart</button> 
+        <button onclick="addToCart(750, 'Product 2')">Add to Cart</button> 
+        <button class="remove" onclick="removeFromCart(750, 'Product 2')">Remove</button>
+        <p>Quantity: <span id="Product 2-count">0</span></p>
     </div> 
     <h3>Cart Total: ₹<span id="total">0</span></h3> 
     <button onclick="checkout()">Checkout</button> 
     <script> 
         let total = 0; 
-        function addToCart(price) { 
+        let cart = {}; 
+        
+        function addToCart(price, product) { 
             total += price; 
+            cart[product] = (cart[product] || 0) + 1;
             document.getElementById("total").textContent = total; 
+            document.getElementById(`${product}-count`).textContent = cart[product];
         } 
+        
+        function removeFromCart(price, product) { 
+            if (cart[product] && cart[product] > 0) { 
+                total -= price; 
+                cart[product] -= 1;
+                document.getElementById("total").textContent = total; 
+                document.getElementById(`${product}-count`).textContent = cart[product];
+            } 
+        } 
+        
         function checkout() { 
             if (total > 0) { 
                 alert(`Thank you! Total: ₹${total}`); 
                 total = 0; 
+                cart = {};
                 document.getElementById("total").textContent = total; 
+                document.getElementById("Product 1-count").textContent = 0;
+                document.getElementById("Product 2-count").textContent = 0;
             } else { 
                 alert("Cart is empty!"); 
             } 
         } 
-    </script> </body></html>
+    </script> 
+</body>
+</html>
